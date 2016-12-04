@@ -71,6 +71,10 @@ def makingdirs():
         htmlstr = cleaning(htmlstr)
         if not os.path.exists('D:\\new\\sites'):
             os.makedirs('D:\\new\\sites')
+        if not os.path.exists('D:\\new\\result'):
+            os.makedirs('D:\\new\\result')
+        if not os.path.exists('D:\\new\\result2'):
+            os.makedirs('D:\\new\\result2')
         filew = open('D:\\new\\sites\\' + str(i) + '.txt', 'w', encoding = 'utf-8')
         final = html.unescape(htmlstr)
         filew.write(final)
@@ -132,7 +136,7 @@ def own():
 def transform(setting):
     res = ''
     for el in sorted(setting):
-        res = res + ', ' + el
+        res = res + '\n' + el
     return res
 
 def result():
@@ -144,12 +148,28 @@ def result():
     own2_res = transform(own2)
     own3_res = transform(own3)
     own4_res = transform(own4) 
-    filew = open('D:\\new\\' + 'result.txt', 'w', encoding = 'utf-8')
-    result = commonwords_res + '\n' + own0_res + '\n' + own1_res + '\n' + own2_res + '\n' + own3_res + '\n' + own4_res + '\n'
-    result = re.sub('^, ','', result)
-    result = re.sub('\n, ','\n', result)
-    filew.write(result)
-    filew.close()
+    result = []
+    result.append(commonwords_res)
+    result.append(own0_res)
+    result.append(own1_res)
+    result.append(own2_res)
+    result.append(own3_res)
+    result.append(own4_res)
+    return result
+
+def filewrite():
+    final = result()
+    i = 0
+    for el in final:
+        if i == 0: 
+            filew = open('D:\\new\\result\\' + 'common' + '.txt', 'w', encoding = 'utf-8')
+            filew.write(el)
+            filew.close()
+        else:
+            filew = open('D:\\new\\result\\' + 'own' + str(i-1) + '.txt', 'w', encoding = 'utf-8')
+            filew.write(el)
+            filew.close()
+        i += 1
 
 def prepare_freq(num_page):
     fr = file('D:\\new\\sites\\' + str(num_page) + '.txt')
@@ -196,7 +216,7 @@ def againfreq():
     freq2 = freq(2,own2)
     freq3 = freq(3,own3)
     freq4 = freq(4,own4)
-    print (freq0,freq1,freq2,freq3,freq4)
+#    print (freq0,freq1,freq2,freq3,freq4)
     return freq0,freq1,freq2,freq3,freq4
 
 def result2():
@@ -208,18 +228,33 @@ def result2():
     own2_freq_res = transform(freq2)
     own3_freq_res = transform(freq3)
     own4_freq_res = transform(freq4) 
-    filew = open('D:\\new\\' + 'result_freq.txt', 'w', encoding = 'utf-8')
-    result = commonwords_res + '\n' + own0_freq_res + '\n' + own1_freq_res + '\n' + own2_freq_res + '\n' + own3_freq_res + '\n' + own4_freq_res + '\n'
-    result = re.sub('^, ','', result)
-    result = re.sub('\n, ','\n', result)
-    result = re.sub('\n\n','\nНе встречаются слова с частотностью больше 1, которые присутсвуют только в этом тексте.\n', result)
-    filew.write(result)
-    filew.close()
+    result2 = []
+    result2.append(commonwords_res)
+    result2.append(own0_freq_res)
+    result2.append(own1_freq_res)
+    result2.append(own2_freq_res)
+    result2.append(own3_freq_res)
+    result2.append(own4_freq_res)
+    return result2
+
+def filewrite2():
+    final = result2()
+    i = 0
+    for el in final:
+        if i == 0: 
+            filew = open('D:\\new\\result2\\' + 'common' + '.txt', 'w', encoding = 'utf-8')
+            filew.write(el)
+            filew.close()
+        else:
+            filew = open('D:\\new\\result2\\' + 'own' + str(i-1) + '.txt', 'w', encoding = 'utf-8')
+            filew.write(el)
+            filew.close()
+        i += 1
     
 def main():
     makingdirs()
-    result()
-    result2()
+    filewrite()
+    filewrite2()
     
 if __name__ == '__main__':
     main()
