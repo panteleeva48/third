@@ -41,7 +41,7 @@ def main():
             mass = [rus, par]
             if rus != '':
                 d[udm] = mass
-                udmstr = str(udm) + '%%%' + str(par)
+                udmstr = str(udm) + '--' + str(par)
                 d3[udmstr] = rus
         i += 1
         f.close()
@@ -73,8 +73,8 @@ def main2():
     for p in d2:
         sep = d2[p].split('***')
         d2[p] = sep
-    for r in range(0,len(d2[p])):
-        d2[p][r] = d2[p][r].split('%%%')
+        for r in range(0,len(d2[p])):
+            d2[p][r] = re.split('--',d2[p][r])
     file('third.txt',d3)
     file('second.txt',d2)
 
